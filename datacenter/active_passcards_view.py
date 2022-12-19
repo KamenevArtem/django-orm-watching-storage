@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 
 def active_passcards_view(request):
-    all_passcards = Passcard.objects.filter(is_active = "True")
+    all_passcards = Passcard.objects.filter(is_active = True)
     context = {
         'active_passcards': all_passcards,
     }
