@@ -5,13 +5,9 @@ from django.utils.timezone import localtime
 
 
 def get_duration(visit):
-    current_time = localtime()
     entered_time = localtime(visit.entered_at)
     leaved_time = localtime(visit.leaved_at)
-    if visit.leaved_at is None:
-        duration_of_visit = current_time - entered_time
-    else:
-        duration_of_visit = leaved_time - entered_time
+    duration_of_visit = leaved_time - entered_time
     duration_time = int(duration_of_visit.total_seconds())
     return duration_time
 
@@ -34,7 +30,7 @@ def is_visit_long(duration):
 
 
 def storage_information_view(request):
-    non_closed_visits = Visit.objects.filter(leaved_at = None)
+    non_closed_visits = Visit.objects.filter(leaved_at__isnull=True)
     for visit in non_closed_visits:
         visit_time = get_duration(visit)
         duration_of_visit = format_duration(visit_time)
